@@ -1,0 +1,27 @@
+{% extends "navbar.html" %}
+
+{% block content %}
+<h1>Completed Assessments:</h1>
+
+{% for assessment in assessments %}
+    <div class="row col col-lg-5 justify-content-md-center d-flex flex-column p-3 mt-3" style="background-color: darkgrey;">
+        <h1>{{ assessment.moduleCode }}</h1>
+        <h2>{{ assessment.title }}</h2>
+        <p>{{ assessment.description }}</p>
+        <p>{{ assessment.dateTime.strftime('%d/%m/%Y %H:%M') }}</p>
+
+        <div class="mt-auto d-flex d-flex">
+            <form action="{{ url_for('incompleteAssessment', id=assessment.id, next=request.endpoint) }}" method="post" style="display: inline;">
+                <button class="btn btn-dark mr-2">Mark as incomplete</button>
+            </form>
+
+            <form action="{{ url_for('removeAssessment', id=assessment.id, next=request.endpoint) }}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Remove</button>
+            </form>
+        </div>
+    </div>
+{% else %}
+    <p>No completed assessments.</p>
+{% endfor %}
+
+{% endblock %}
